@@ -1,5 +1,5 @@
 //A library to handle function related to AWS s3 pre-signed url and upload
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-providers";
 
 
@@ -16,12 +16,31 @@ export const uploadFileAwsSdk = async (file) => {
     const client = new S3Client(config);
     const input = {
         Bucket: 's3-imageprocess506',
-        Key: checksum,
+        Key: `input/${checksum}`,
         Body: file,
         ContentType: file.type}
     const command = new PutObjectCommand(input);
     const response = await client.send(command);
     return { response, checksum };
+}
+
+export const fetchFile = async (checksum) => {
+    if (!checksum) return;
+    const config = {
+        region: "us-east-1",
+        credentials: fromCognitoIdentityPool({
+            clientConfig: { region: "us-east-1" },
+            identityPoolId: "us-east-1:d3ebea42-49d8-47ad-a26d-10f9b96ec13b",
+        })};
+    const client = new S3Client(config);
+    const input = {
+        Bucket: 's3-imageprocess506',
+        Key: `output/${checksum}`
+    }
+    const command = new GetObjectCommand(input);
+    const response = await client.send(command);
+    return response;
+
 }
 
 //Receives a file, returns a SHA-256 checksum of it

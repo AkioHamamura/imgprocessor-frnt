@@ -20,20 +20,24 @@ function App() {
 
     //Will try to upload the image to S3
     const initiateOp = async () =>{
+        if (!document.querySelector('input[type="file"]').files[0]) {
+            alert ('Please select a file');
+            return;
+        }
         const file = document.querySelector('input[type="file"]').files[0];
         const { response, checksum } = await uploadFileAwsSdk(file);
         return {response, checksum};
     }
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
+            <header className="App-header"><img src={logo} className="App-logo" alt="logo"/></header>
+            <container>
                 <p>
-                    Edit <code>src/App.js</code> and save to reload.
+                Edit <code>src/App.js</code> and save to reload.
                 </p>
-                <input type="file" accept="image/*" onChange={handleImageUpload} />
-                <input type="button" value="Upload image" onClick={() => initiateOp()} />
-                {image && <img src={image} alt="Uploaded" className="uploaded-image" />}
+                <input type="file" accept="image/*" onChange={handleImageUpload}/>
+                <input type="button" value="Upload image" onClick={() => initiateOp()}/>
+                {image && <img src={image} alt="Uploaded" className="uploaded-image"/>}
 
                 <a
                     className="App-link"
@@ -43,9 +47,7 @@ function App() {
                 >
                     Learn React
                 </a>
-                <p>Random number:</p>
-                <p>{randomNumber}</p>
-            </header>
+            </container>
         </div>
     );
 }
