@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
-import './App.css';
-import {uploadFileAwsSdk } from './aws-s3';
+import {uploadFileAwsSdk } from './components/aws-s3';
 
 function App() {
     const [image, setImage] = useState(null);
-    const [randomNumber, setRandomNumber] = useState(null);
 
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
@@ -31,9 +29,12 @@ function App() {
     return (
         <div className="App">
             <header className="App-header"><img src={logo} className="App-logo" alt="logo"/></header>
+
+            <h1 className="font-bold underline">Hello world!</h1>
+
             <container>
                 <p>
-                Edit <code>src/App.js</code> and save to reload.
+                    Edit <code>src/App.js</code> and save to reload.
                 </p>
                 <input type="file" accept="image/*" onChange={handleImageUpload}/>
                 <input type="button" value="Upload image" onClick={() => initiateOp()}/>
