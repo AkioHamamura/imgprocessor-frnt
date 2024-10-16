@@ -1,11 +1,14 @@
-// App.js
 import React, { useState } from 'react';
 import logo from './images/newFavicon.jpg';
 import { uploadFileAwsSdk } from './components/aws-s3';
 import './App.css';
+import Footer from "./components/Footer";
+import Hero from "./components/hero";
+import Menu1 from "./components/menu1";
 
 function App() {
     const [image, setImage] = useState(null);
+    const [operation, setOperation] = useState(null);
 
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
@@ -29,15 +32,21 @@ function App() {
     };
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <h1 className=" underline">Hello world!</h1>
-                <input type="file" accept="image/*" onChange={handleImageUpload}/>
-                <button className="btn" onClick={() => initiateOp()}>hello</button>
-                {image && <img src={image} alt="Uploaded" className="uploaded-image"/>}
+        <div>
+            <container className={"App w-1/2 mx-auto"}>
+            <Hero/>
+                <header className="App-header" id={"contentStart"}>
+                <container className={"justify-center flex mx-auto"}><Menu1/></container>
 
-            </header>
+
+                        <div className="flex flex-col items-center mt-4">
+                            <input type="file" className="file-input w-full max-w-xs" accept="image/*" onChange={handleImageUpload}/>
+                            <button className="btn btn-primary mt-4" onClick={() => initiateOp()}>Upload image</button>
+                            {image && <img src={image} alt="Uploaded" className="uploaded-image mt-4"/>}
+                        </div>
+                </header>
+                <Footer/>
+            </container>
         </div>
     );
 }
