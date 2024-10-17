@@ -9,8 +9,6 @@
 //This is the library that will handle the photo editing functions and procedures
 
 //This function will call the API to apply a filter to the photo
-import {fetchFile} from "./aws-s3";
-
 export const applyFilter = async (checksum, options) => {
     //Call the API and wait for a response for at most 30 seconds
     const response = await fetch(`https://zrmulzpv9b.execute-api.us-east-1.amazonaws.com/prod/process-image?file=${checksum}`, {
@@ -23,9 +21,3 @@ export const applyFilter = async (checksum, options) => {
     console.log(response);
     return response;
 }
-
-//This function will tell the UI to fetch the edited photo from the S3 bucket and update the UI with the edited photo
-export const updateUi = async (checksum) => {
-    const file = await fetchFile(checksum);
-}
-
