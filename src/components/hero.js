@@ -10,7 +10,7 @@ function Hero(){
                 <div className="max-w-md">
                     <h1 className="mb-5 text-5xl font-bold">Welcome to...</h1>
                     <p className="mb-5">
-                        Yet another generic af webapp
+                        Yet another generic af webapp, but it's CS506's app so it's cool.
                     </p>
                     <button className="btn btn-primary" onClick={() => document.getElementById('contentStart').scrollIntoView({behavior: 'smooth'})} >Get Started</button>
                 </div>

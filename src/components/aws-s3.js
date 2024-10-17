@@ -35,10 +35,12 @@ export const fetchFile = async (checksum) => {
     const client = new S3Client(config);
     const input = {
         Bucket: 's3-imageprocess506',
+        //Key: `output/${checksum}`
         Key: `output/${checksum}`
     }
     const command = new GetObjectCommand(input);
     const response = await client.send(command);
+    //Transform the response to a blob
     return response;
 
 }

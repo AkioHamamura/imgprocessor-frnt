@@ -13,13 +13,14 @@ import {fetchFile} from "./aws-s3";
 
 export const applyFilter = async (checksum, options) => {
     //Call the API and wait for a response for at most 30 seconds
-    const response = await fetch(`https://api.imageprocess.site/filter/${checksum}`, {
+    const response = await fetch(`https://zrmulzpv9b.execute-api.us-east-1.amazonaws.com/prod/process-image?file=${checksum}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(options)
     });
+    console.log(response);
     return response;
 }
 
