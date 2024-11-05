@@ -9,15 +9,20 @@
 //This is the library that will handle the photo editing functions and procedures
 
 //This function will call the API to apply a filter to the photo
-export const applyFilter = async (checksum, options) => {
+export const applyFilter = async (checksum) => {
     //Call the API and wait for a response for at most 30 seconds
-    const response = await fetch(`https://zrmulzpv9b.execute-api.us-east-1.amazonaws.com/prod/process-image?file=${checksum}`, {
+    const response = await fetch(`https://zrmulzpv9b.execute-api.us-east-1.amazonaws.com/prod/process-image?file=${checksum}.png`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(options)
     });
     console.log(response);
     return response;
+}
+export const removeBackground = async(checksum) =>{
+    //API endpoint: https://6sxg45y2rh.execute-api.us-east-1.amazonaws.com//process?File_name={checksum}
+    return await fetch(`https://6sxg45y2rh.execute-api.us-east-1.amazonaws.com/process?File_name=${checksum}.png`)
+
+
 }

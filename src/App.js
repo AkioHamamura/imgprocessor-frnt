@@ -5,8 +5,7 @@ import './App.css';
 import Header from './components/Header';
 import Hero from './components/hero';
 import Footer from './components/Footer';
-import Menu1 from './components/menu1';
-import { applyFilter } from './components/photoEditing';
+import {applyFilter, removeBackground} from './components/photoEditing';
 import ImageCanvas from './components/imageCanvas';
 
 function App() {
@@ -29,13 +28,23 @@ function App() {
         if (operation === null) return alert('Please select an operation');
 
         const { checksum } = await uploadFileAwsSdk(file);
-        const result = await applyFilter(checksum);
+        if (checksum != null){
+            console.log("Uploaded")
 
-        if (result.status === 200) {
-            const fileResponse = await fetchFile(checksum);
-            const blob = await fileResponse.Body.transformToByteArray();
-            const imageUrl = URL.createObjectURL(new Blob([blob], { type: 'image/png' }));
-            setReturnedImage(imageUrl);
+        let response = null;
+        if (operation === 1) response = await removeBackground(checksum);
+        else if (operation === 2) response = await applyFilter(checksum);
+        if (response != null){
+            console.log("1")
+            if (response.status === 200) {
+                console.log("2")
+                const fileResponse = await fetchFile(checksum);
+                const blob = await fileResponse.Body.transformToByteArray();
+                const imageUrl = URL.createObjectURL(new Blob([blob], { type: 'image/png' }));
+                setReturnedImage(imageUrl);
+                console.log("3")
+            }
+            }
         }
     };
 

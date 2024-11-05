@@ -24,12 +24,13 @@ const getFileSha256 = async (file) => {
 export const uploadFileAwsSdk = async (file) => {
     const checksum = await getFileSha256(file);
 
-    if (await checkFile(checksum)) return { response: { status: 200 }, checksum }; //If file already exists, skips upload process
+    if (await checkFile(checksum))
+        return { response: { status: 200 }, checksum }; //If file already exists, skips upload process
     else{
         const client = new S3Client(getClientConfig());
         const input = {
             Bucket: bucketName,
-            Key: `input/${checksum}`,
+            Key: `input/${checksum}.png` ,
             Body: file,
             ContentType: file.type,
             Metadata: { 'Content-Type': 'image/png' },};
@@ -45,7 +46,7 @@ export const fetchFile = async (checksum) => {
     const client = new S3Client(getClientConfig());
     const input = {
         Bucket: bucketName,
-        Key: `output/${checksum}`,};
+        Key: `output/${checksum}.png`,};
 
     const command = new GetObjectCommand(input);
     return await client.send(command);
@@ -56,9 +57,15 @@ export const checkFile = async (checksum) => {
     const client = new S3Client(getClientConfig());
     const input = {
         Bucket: bucketName,
-        Key: `output/${checksum}`,};
+        Key: `input/${checksum}.png`,};
 
     const command = new GetObjectCommand(input);
-    try {await client.send(command);return true;
-    } catch { return false;}
+    try {
+        console.log(await client.send(command));
+        console.log("File exists");
+        return true;
+    }
+    catch {
+        console.log("File does not exist");
+        return false;}
 };
