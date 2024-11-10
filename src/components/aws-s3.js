@@ -23,7 +23,7 @@ const getFileSha256 = async (file) => {
 
 export const uploadFileAwsSdk = async (file) => {
     const checksum = await getFileSha256(file);
-
+    console.log("1")
     if (await checkFile(checksum))
         return { response: { status: 200 }, checksum }; //If file already exists, skips upload process
     else{
@@ -42,6 +42,7 @@ export const uploadFileAwsSdk = async (file) => {
 };
 
 export const fetchFile = async (checksum) => {
+    console.log("2")
     if (!checksum) return;
     const client = new S3Client(getClientConfig());
     const input = {
@@ -53,6 +54,7 @@ export const fetchFile = async (checksum) => {
 };
 
 export const checkFile = async (checksum) => {
+    console.log("3")
     if (!checksum) return false;
     const client = new S3Client(getClientConfig());
     const input = {

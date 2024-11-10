@@ -29,20 +29,15 @@ function App() {
 
         const { checksum } = await uploadFileAwsSdk(file);
         if (checksum != null){
-            console.log("Uploaded")
-
         let response = null;
         if (operation === 1) response = await removeBackground(checksum);
         else if (operation === 2) response = await applyFilter(checksum);
         if (response != null){
-            console.log("1")
             if (response.status === 200) {
-                console.log("2")
                 const fileResponse = await fetchFile(checksum);
                 const blob = await fileResponse.Body.transformToByteArray();
                 const imageUrl = URL.createObjectURL(new Blob([blob], { type: 'image/png' }));
                 setReturnedImage(imageUrl);
-                console.log("3")
             }
             }
         }
